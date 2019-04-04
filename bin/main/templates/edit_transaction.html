@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="card">
+		<div class="card-body">
+			<form th:object="${item}" id="edit-form">
+				<div class="form-group"><h5 th:text="${item.details}"></h5></div>
+				<input id="edit-id" name="id" type="hidden" th:field="*{id}" />
+				<input id="edit-details" name="details" type="hidden" th:field="*{details}" />
+				<input id="edit-account" name="account" type="hidden" th:field="*{account}" />
+				<input id="edit-category" name="category" type="hidden" th:field="*{category}" />
+				<input id="edit-type" name="type" type="hidden" th:field="*{type}" />
+				<div class="form-group">
+				  <label for="date">Data</label>
+				  <input type="date" name="date" th:field="*{date}" id="date" class="form-control">
+				</div>
+				  <div class="form-group">
+				    <label for="amount">Valoare</label>
+				    <input type="number" name="amount" th:field="*{amount}" class="form-control" id="amount" placeholder="0.00 RON">
+				  </div>
+				  <div class="form-group">
+				  	<button id="save" type="button" class="btn btn-primary">Salveaza</button>
+				  	<button id="delete" type="button" class="btn btn-danger">Sterge</button>
+				  </div>
+			</form>
+		</div>
+  	</div>
+  	<script>
+  		$("#save").click(function(event) {
+  			event.preventDefault();
+  			var id = $("#edit-id").val();
+  			var form = $('#edit-form').serialize();
+  			console.log(form);
+  			$.ajax({
+				url: '/api/transaction/update/form/' + id,
+				type: 'PUT',
+				data: form,
+				success: function(data) {
+					if (data.status) {
+						location.reload();
+					} else {
+						$.each(data.errors, function(key, value){
+			  	            $('input[name=' + key + ']').after('<span class="error">' + value + '</span>');
+			            });
+					}
+				},
+			});
+  		});
+		$("#delete").click(function(event) {
+			event.preventDefault();
+			var id = $("#edit-id").val();
+  			$.ajax({
+				url: '/api/transaction/delete/' + id,
+				type: 'DELETE',
+				success: function(data) {
+					if (data) {
+						location.reload();
+					}
+				},
+			});
+  		});
+  	</script>
+</html>

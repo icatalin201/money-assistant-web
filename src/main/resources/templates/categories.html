@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Money Assistant</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+	  	<link th:href="@{/style/bootstrap.min.css}" rel="stylesheet">
+	  	<link th:href="@{/style/mdb.min.css}" rel="stylesheet">
+	  	<link th:href="@{/style/style.css}" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="mb-1 navbar navbar-expand-lg navbar-dark primary-color">
+			  <a class="navbar-brand" href="/">Money Assistant</a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
+			    aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+			  <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+			    <ul class="navbar-nav ml-auto">
+			      <li class="nav-item">
+			        <a class="nav-link" href="/transactions">
+			          <i class="fas fa-list"></i> Tranzactii
+			        </a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="/accounts">
+			          <i class="far fa-credit-card"></i> Conturi
+			        </a>
+			      </li>
+			      <li class="nav-item active">
+			        <a class="nav-link" href="/categories">
+			         	<i class="fas fa-th-large"></i> Categorii
+			        </a>
+			      </li>
+			    </ul>
+			  </div>
+		</nav>
+		<div class="container-fluid panel">
+			<div class="row">
+				<div class="col-sm-3 edit">
+				
+				</div>
+				<div class="col-sm-6">
+					<div class="card">
+						<div class="card-body">
+							<h3>Categorii</h3>
+							<div class="iterable">
+							  <div class="iterable-item" th:each="category: ${categories}" th:attr="data-id=${category.id}">
+							  		<span class="iterable-item-name" th:text="${category.name}"></span>
+							  </div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="card">
+						<div class="card-body">
+							<form id="new-form">
+								<div class="form-group"><h5>Adaugare categorie</h5></div>
+								<div class="form-group">
+									<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									  <label class="btn btn-primary active">
+									    <input type="radio" name="type" id="income" 
+									    	value="income"
+									    	autocomplete="off" checked> Venituri
+									  </label>
+									  <label class="btn btn-primary">
+									    <input type="radio" name="type" id="expense" 
+									    	value="expense"
+									    	autocomplete="off"> Cheltuieli
+									  </label>
+									</div>
+								</div>
+								<div class="form-group">
+								    <label for="name">Nume</label>
+								    <input type="text" name="name" class="form-control" id="name">
+							  	</div>
+								  <div class="form-group">
+								  	<button id="submit" type="button" class="btn btn-primary">Adauga</button>
+								  	<button id="reset" type="button" class="btn btn-danger">Reseteaza</button>
+								  </div>
+							</form>
+						</div>
+				  	</div>
+				  	<div class="d-flex justify-content-center" style="margin-top:10px;">
+					  <div class="spinner-grow text-success inactive" role="status">
+					    <span class="sr-only">Loading...</span>
+					  </div>
+				  	</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+	  	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+  		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/mdb.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/init.js}"></script>
+		<script>
+			$(document).ready(function() {
+				setCategoryItemEvent();
+				submitCategoryForm();
+			});			
+		</script>	
+	</body>
+</html>

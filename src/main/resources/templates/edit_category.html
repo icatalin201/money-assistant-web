@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="card">
+		<div class="card-body">
+			<form th:object="${category}" id="edit-form">
+				<div class="form-group"><h5>Editare categorie</h5></div>
+				<input id="edit-id" name="id" type="hidden" th:field="*{id}" />
+				<input id="edit-type" name="type" type="hidden" th:field="*{type}" />
+				  <div class="form-group">
+				    <label for="name">Nume</label>
+				    <input type="text" name="name" th:field="*{name}" class="form-control" id="name">
+				  </div>
+				  <div class="form-group">
+				  	<button id="save" type="button" class="btn btn-primary">Salveaza</button>
+				  	<button id="delete" type="button" class="btn btn-danger">Sterge</button>
+				  </div>
+			</form>
+		</div>
+  	</div>
+  	<script>
+  		$("#save").click(function(event) {
+  			event.preventDefault();
+  			var id = $("#edit-id").val();
+  			var form = $("#edit-form").serialize();
+  			$.ajax({
+				url: '/api/category/update/form/' + id,
+				type: 'PUT',
+				data: form,
+				success: function(data) {
+					if (data.status) {
+						location.reload();
+					} else {
+						$.each(data.errors, function(key, value){
+			  	            $('input[name=' + key + ']').after('<span class="error">' + value + '</span>');
+			            });
+					}
+				},
+			});
+  		});
+		$("#delete").click(function(event) {
+			event.preventDefault();
+			var id = $("#edit-id").val();
+  			$.ajax({
+				url: '/api/category/delete/' + id,
+				type: 'DELETE',
+				success: function(data) {
+					if (data) {
+						location.reload();
+					}
+				},
+			});
+  		});
+  	</script>
+</html>
