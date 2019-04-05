@@ -1,4 +1,4 @@
-# money-assistant-web
+# Money Assistant
 
 Money Assistant is a finance tool application special made for transactions. 
 It helps you track your financial activity efficiently and is very easy to use.
